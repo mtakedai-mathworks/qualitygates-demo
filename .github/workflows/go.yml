@@ -26,7 +26,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          ./sonar-scanner-/bin/sonar-scanner \
+          sonar-scanner \
             -Dsonar.projectKey=qualitygates-demo \
             -Dsonar.sources=. \
             -Dsonar.go.coverage.reportPaths=coverage.out \
