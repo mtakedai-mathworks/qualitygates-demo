@@ -8,14 +8,6 @@ type DBHandler struct {
 	db *sql.DB
 }
 
-func NewDBHandler(connStr string) (*DBHandler, error) {
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		return nil, err
-	}
-	return &DBHandler{db: db}, nil
-}
-
 // 🚨 SQL Injection risk: unsafe string concatenation
 func (h *DBHandler) GetUserByName(username string) (string, error) {
 	query := "SELECT email FROM users WHERE username = '" + username + "'"
