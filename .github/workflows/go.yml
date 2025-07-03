@@ -33,15 +33,11 @@ jobs:
             -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.token=$SONAR_TOKEN
 
-      - name: Check Coverage threshold
-        run: |
-          COVERAGE=$(go tool cover -func=coverage.out | grep total: | awk '{print substr($3, 1, length($3)-1)}')
-          echo "Total coverage: $COVERAGE"
-          COVERAGE_INT=${COVERAGE%.*}
-          if (( COVERAGE_INT < 80 )); then
-            echo "Coverage $COVERAGE is less than 80%"
-            exit 1
-          fi
+      - name: Check SonarQube Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        with:
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          sonar-host-url: https://sonarqube.mycompany.com
 
   build:
     runs-on: ubuntu-latest
