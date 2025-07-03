@@ -11,15 +11,33 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.20'
-      - name: Test
-        run: go test -v ./...
+      - name: Run tests with coverage
+        run: go test -coverprofile=coverage.out ./...
+        
+      - name: Run SonarQube Scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=qualitygates-demo \
+            -Dsonar.sources=. \
+            -Dsonar.go.coverage.reportPaths=coverage.out \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.token=$SONAR_TOKEN
+
+      - name: Check SonarQube Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   build:
     runs-on: ubuntu-latest
