@@ -12,6 +12,9 @@ on:
 jobs:
   test:
     runs-on: self-hosted
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
@@ -22,9 +25,6 @@ jobs:
         run: go test -coverprofile=coverage.out ./...
         
       - name: Run SonarQube Scanner
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=qualitygates-demo \
@@ -35,9 +35,18 @@ jobs:
 
       - name: Check SonarQube Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  gosec:
+    runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
 
   build:
     runs-on: ubuntu-latest
