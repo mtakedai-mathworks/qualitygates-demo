@@ -31,7 +31,7 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.go.coverage.reportPaths=coverage.out \
             -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.token=$SONAR_TOKEN
 
       - name: Check Coverage threshold
         run: |
