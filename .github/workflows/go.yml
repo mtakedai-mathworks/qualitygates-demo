@@ -35,9 +35,9 @@ jobs:
 
       - name: Check SonarQube Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-        with:
-          sonar-token: ${{ secrets.SONAR_SECRET }}
-          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   build:
     runs-on: ubuntu-latest
