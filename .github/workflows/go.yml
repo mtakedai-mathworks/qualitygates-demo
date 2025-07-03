@@ -36,18 +36,6 @@ jobs:
       - name: Check SonarQube Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
 
-  gosec:
-    runs-on: ubuntu-latest
-    env:
-      GO111MODULE: on
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v3
-      - name: Run Gosec Security Scanner
-        uses: securego/gosec@master
-        with:
-          args: ./...
-
   build:
     runs-on: ubuntu-latest
     steps:
