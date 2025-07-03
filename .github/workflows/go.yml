@@ -30,7 +30,7 @@ jobs:
             -Dsonar.projectKey=qualitygates-demo \
             -Dsonar.sources=. \
             -Dsonar.go.coverage.reportPaths=coverage.out \
-            -Dsonar.host.url=$SONAR_HOST_URL
+            -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN
 
       - name: Check Coverage threshold
