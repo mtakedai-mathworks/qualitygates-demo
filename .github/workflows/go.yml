@@ -39,6 +39,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
+
   build:
     runs-on: ubuntu-latest
     steps:
