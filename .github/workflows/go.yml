@@ -37,7 +37,7 @@ jobs:
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
-          sonar-host-url: https://sonarqube.mycompany.com
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
 
   build:
     runs-on: ubuntu-latest
