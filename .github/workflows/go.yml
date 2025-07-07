@@ -12,9 +12,6 @@ on:
 jobs:
   test:
     runs-on: self-hosted
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
@@ -24,6 +21,13 @@ jobs:
       - name: Run tests with coverage
         run: go test -coverprofile=coverage.out ./...
         
+  sonarqube:
+    runs-on: self-hosted
+    needs: test
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    steps:
       - name: Run SonarQube Scanner
         run: |
           sonar-scanner \
